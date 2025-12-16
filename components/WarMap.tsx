@@ -1280,4 +1280,64 @@ export const WarMap = forwardRef((props: WarMapProps, ref) => {
               </div>
 
               {/* Tactical Action Selector */}
-              <div className="flex items-center gap-1 bg-
+              <div className="flex items-center gap-1 bg-black border border-slate-700 rounded p-1">
+                  <Crosshair className="w-3 h-3 text-slate-500" />
+                  <select 
+                    className="w-full bg-black text-xs text-white outline-none appearance-none"
+                    value=""
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        if (!val) return;
+                        const current = getSelectedNote();
+                        // Append tactical action specifically
+                        updateNote(`${current} [戰術動作: ${val}]`.trim());
+                    }}
+                  >
+                      <option value="">選擇戰術動作...</option>
+                      {TACTICAL_ACTIONS.map(action => (
+                          <option key={action} value={action}>{action}</option>
+                      ))}
+                  </select>
+              </div>
+
+              <textarea 
+                  className="w-full h-20 bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white resize-none"
+                  placeholder="輸入任務或備註..."
+                  value={getSelectedNote()}
+                  onChange={(e) => updateNote(e.target.value)}
+              />
+              <button 
+                onClick={(e) => selectedItem.type === 'unit' ? removeUnit(selectedItem.id, e as any) : removeGraphic(selectedItem.id, e as any)}
+                className="flex items-center gap-2 text-xs text-red-400 hover:bg-slate-700 p-1 rounded"
+              >
+                  <Trash2 className="w-3 h-3" /> 刪除物件
+              </button>
+          </div>
+      )}
+
+      <div className="absolute bottom-4 right-4 bg-slate-800/90 p-2 rounded-lg border border-slate-700 flex gap-2 z-10">
+         {clickedPos && (
+             <div className="text-xs text-slate-400 px-2 flex items-center border-r border-slate-700 mr-2">
+                 <Crosshair className="w-3 h-3 mr-1" />
+                 Grid: {Math.floor(clickedPos.x / gridSize)}, {Math.floor(clickedPos.y / gridSize)}
+             </div>
+         )}
+         <div className="text-xs text-slate-400 px-2 flex items-center">
+             縮放: {Math.round(scale * 100)}%
+         </div>
+         <button onClick={() => setScale(1)} className="p-1 hover:bg-slate-700 rounded text-slate-300" title="重置視圖">
+            重置
+         </button>
+      </div>
+
+      <div className="absolute top-4 right-4 bg-slate-800/90 p-2 rounded-lg border border-slate-700 z-10 hidden md:block">
+         <div className="text-xs font-bold text-emerald-400 mb-1">操作模式</div>
+         <div className="text-xs text-slate-200">
+            {mode === 'place' && '左鍵: 部署 / 點擊: 編輯 / 長按: 刪除'}
+            {mode === 'draw' && '拖曳: 繪製 / 點擊: 編輯 / 長按: 刪除'}
+            {mode === 'select' && '拖曳: 移動地圖'}
+         </div>
+      </div>
+    </div>
+  );
+});

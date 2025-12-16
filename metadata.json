@@ -1,0 +1,5 @@
+{
+  "name": "戰術參謀系統",
+  "description": "基於生成式 AI 的網頁版兵棋推演系統。支援地圖匯入、自動 CRG網格生成、美軍步兵排編制部署，以及透過 AI 參謀官進行戰術分析與 OPORD 地形生成。",
+  "requestFramePermissions": []
+}

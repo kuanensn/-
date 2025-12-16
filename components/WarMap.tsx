@@ -117,11 +117,6 @@ export const WarMap = forwardRef((props: WarMapProps, ref) => {
             });
         };
 
-        // If using mapImage, draw it first (if not inside SVG)
-        // Note: We moved mapImage INTO the SVG via <image>, so the serializer should handle it.
-        // However, external images in SVG need base64 to work reliably in data URL.
-        // For local uploads (FileReader) it is already base64, so it should work fine.
-        
         const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
         const url = URL.createObjectURL(svgBlob);
         
